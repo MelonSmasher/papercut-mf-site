@@ -1,0 +1,5 @@
+server.type=site
+server.site.debug=${PAPERCUT_SITE_SERVER_DEBUG:=N}
+server.master.address=${PAPERCUT_SITE_SERVER_MASTER_ADDRESS}
+server.master.port=${PAPERCUT_SITE_SERVER_MASTER_PORT:=9191}
+server.master.ssl.port=${PAPERCUT_SITE_SERVER_MASTER_SSL_PORT:=9192}
