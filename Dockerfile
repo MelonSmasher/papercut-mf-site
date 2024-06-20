@@ -27,8 +27,10 @@ RUN useradd -m -d ${PAPERCUT_MF_INSTALL_DIR} -s /bin/bash ${PAPERCUT_USER} && \
     chown -R ${PAPERCUT_USER}:${PAPERCUT_USER} ${PAPERCUT_MF_INSTALL_DIR} && \
     chmod +x /entrypoint.sh
 
-RUN --mount=type=cache,target=/var/cache/apt \
-    apt-get update && apt-get install -y \
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    rm -f /etc/apt/apt.conf.d/docker-clean \
+    apt-get update && apt-get install -y --no-install-recommends \
     curl \
     cups \
     cpio \
@@ -40,11 +42,8 @@ RUN --mount=type=cache,target=/var/cache/apt \
     samba-common \
     samba-common-bin \
     smbclient \
-    sudo
-
-    RUN apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* rm -rf /etc/supervisor
+    sudo && \
+    rm -rf /etc/supervisor
 
 COPY src/supervisor /etc/supervisor
 
