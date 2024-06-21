@@ -21,16 +21,7 @@ RUN useradd -m -d /papercut -s /bin/bash papercut && \
 
 WORKDIR /papercut
 
-RUN set -exu && \
-    rm -f /etc/apt/apt.conf.d/docker-clean && \
-    echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache && \
-    echo 'Acquire::CompressionTypes::Order:: "gz";' > /etc/apt/apt.conf.d/99use-gzip-compression
-
-RUN --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,id=apt-lib,target=/var/lib/apt,sharing=locked \
-    --mount=type=cache,id=debconf,target=/var/cache/debconf,sharing=locked \
-    set -exu && \
-    apt-get update -qq && \
+RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive \
     apt-get -y install -y -qq --no-install-recommends \
     ca-certificates \
@@ -46,6 +37,11 @@ RUN --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=locked \
     samba-common-bin \
     smbclient \
     sudo && \
+    apt autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/dpkg && \
+    rm -rf /var/cache/debconf && \
+    rm -rf /var/lib/apt/lists/* && \
     truncate -s 0 /var/log/apt/* && \
     truncate -s 0 /var/log/dpkg.log && \
     rm -rf /etc/supervisor && \
