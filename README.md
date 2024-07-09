@@ -1,4 +1,4 @@
-# Papercut MF Site Server
+# Papercut MF Site Server Container
 
 [![GitHub](https://img.shields.io/badge/GitHub-gray?logo=github)](https://github.com/melonsmasher/papercut-mf-site) [![DockerHub](https://img.shields.io/badge/DockerHub-white?logo=docker)](https://hub.docker.com/r/melonsmasher/papercut-mf-site) [![License](https://img.shields.io/github/license/melonsmasher/papercut-mf-site)](https://raw.githubusercontent.com/MelonSmasher/papercut-mf-site/master/LICENSE)
 
